@@ -82,6 +82,10 @@ table 50112 Items
         //     FieldClass = FlowField;
         //     CalcFormula = sum("Item"."Unit Price" where("No." = field("Item No."), Description = field("Item Name")));
         // }
+        field(12; "Posted Doc Number"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

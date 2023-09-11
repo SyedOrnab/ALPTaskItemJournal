@@ -77,18 +77,23 @@ page 50114 "Request Card"
                     DocNum: Code[20];
                     TempName: Code[10];
                     Line: Integer;
+                    lastRec: Record Items;
 
                 begin
-                    Line := 1;
+                    Line := 0;
+                    ItemJournalLineRec.FindLast();
+                    Line := ItemJournalLineRec."Line No.";
+
+                    DocNum := NoSeriesMgt.TryGetNextNo('IJNL-GEN', Today());
+                    ItemRec.SetRange("Item ID", Rec.ID);
                     if ItemRec.FindFirst() then begin
                         repeat
                             TempName := 'ITEM';
-                            DocNum := NoSeriesMgt.TryGetNextNo('IJNL-GEN', Today());
 
                             ItemJournalLineRec.Init();
                             ItemJournalLineRec."Journal Template Name" := TempName;
                             ItemJournalLineRec."Journal Batch Name" := 'DEFAULT';
-                            ItemJournalLineRec."Line No." := Line;
+                            ItemJournalLineRec."Line No." := Line + 1000;
                             ItemJournalLineRec."Document No." := DocNum;
                             ItemJournalLineRec."Posting Date" := Today();
                             ItemJournalLineRec.Validate("Item No.", ItemRec."Item No.");
@@ -96,6 +101,8 @@ page 50114 "Request Card"
 
                             ItemJournalLineRec.Insert(true);
                             Line += 1;
+                            ItemRec."Posted Doc Number" := DocNum;
+                            ItemRec.Modify();
                         until ItemRec.Next() = 0;
                     end;
 

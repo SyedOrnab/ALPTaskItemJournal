@@ -76,6 +76,8 @@ page 50115 "Item Lists"
                     ToolTip = 'Specifies the value of the Remaining quantity field.';
                     Visible = false;
                 }
+                field("Posted Doc Number"; Rec."Posted Doc Number")
+                {}
 
                 // field(Price; Rec.Price)
                 // {
